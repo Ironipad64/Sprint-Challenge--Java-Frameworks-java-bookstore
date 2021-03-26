@@ -77,10 +77,10 @@ Be prepared to demonstrate your understanding of this week's concepts by answeri
 
 - [ ] Add unit test for the Book Service without using the database as test data. The structure is already in place, you need to write the tests for the following:
   - [ ] findAll
-  - [ ] findBookById that succeeds
-  - [ ] findBookById that fails
+  - [x] findBookById that succeeds
+  - [x] findBookById that fails
   - [ ] delete
-  - [ ] save a new book
+  - [x] save a new book
 
 - [ ] Add unit tests for the Book Controller NOT relying on the database as test data. The structure is already in place, you need to set up the data and write the tests for the following:
   - [ ] listAllBooks
