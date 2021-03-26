@@ -65,7 +65,7 @@ public class SimpleCorsFilter
         } else
         {
             filterChain.doFilter(servletRequest,
-                                 servletResponse);
+                    servletResponse);
         }
     }
 }

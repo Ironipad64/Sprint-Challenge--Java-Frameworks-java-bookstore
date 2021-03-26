@@ -191,6 +191,11 @@ public class User
         this.password = passwordEncoder.encode(password);
     }
 
+    public void setNoEncryptPassword(String password)
+    {
+        this.password = password;
+    }
+
     /**
      * Getter for the list of useremails for this user
      *
@@ -244,9 +249,8 @@ public class User
 
         for (UserRoles r : this.roles)
         {
-            String myRole = "ROLE_" + r.getRole()
-                    .getName()
-                    .toUpperCase();
+            String myRole = "ROLE_" + r.getRole().getName().toUpperCase();
+
             rtnList.add(new SimpleGrantedAuthority(myRole));
         }
 

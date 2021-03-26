@@ -41,8 +41,7 @@ import java.util.Date;
  */
 @Order(Ordered.HIGHEST_PRECEDENCE)
 @RestControllerAdvice
-public class RestExceptionHandler
-        extends ResponseEntityExceptionHandler
+public class RestExceptionHandler extends ResponseEntityExceptionHandler
 {
     /**
      * Connects this class with the Helper Functions
@@ -64,6 +63,8 @@ public class RestExceptionHandler
      * @param rnfe All the information about the exception that is thrown.
      * @return The error details for displaying to the client plus the status Not Found.
      */
+
+
     @ExceptionHandler(ResourceNotFoundException.class)
     public ResponseEntity<?> handleResourceNotFoundException(ResourceNotFoundException rnfe)
     {
@@ -76,9 +77,7 @@ public class RestExceptionHandler
                                                 .getName());
         errorDetail.setErrors(helperFunctions.getConstraintViolation(rnfe));
 
-        return new ResponseEntity<>(errorDetail,
-                                    null,
-                                    HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(errorDetail, null, HttpStatus.NOT_FOUND);
     }
 
     /**

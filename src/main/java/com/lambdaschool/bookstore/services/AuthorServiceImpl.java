@@ -41,8 +41,7 @@ public class AuthorServiceImpl
     @Override
     public void delete(long id)
     {
-        if (authorrespos.findById(id)
-                .isPresent())
+        if (authorrespos.findById(id).isPresent())
         {
             authorrespos.deleteById(id);
         } else

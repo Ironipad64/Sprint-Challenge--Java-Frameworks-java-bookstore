@@ -47,6 +47,7 @@ public class CustomErrorDetails extends DefaultErrorAttributes
         errorDetails.put("developerMessage", "path: " + errorAttributes.get("path"));
 
         errorDetails.put("errors", helperFunctions.getConstraintViolation(this.getError(webRequest)));
+
         return errorDetails;
     }
 }

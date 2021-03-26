@@ -9,8 +9,10 @@ import com.lambdaschool.bookstore.models.Wrote;
 import com.lambdaschool.bookstore.repository.BookRepository;
 import org.junit.After;
 import org.junit.Before;
+import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.junit.runners.MethodSorters;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,13 +20,19 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import static junit.framework.TestCase.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.mockito.ArgumentMatchers.any;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import static junit.framework.TestCase.assertEquals;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest(classes = BookstoreApplicationTest.class)
+@SpringBootTest(classes = BookstoreApplicationTest.class,
+        properties = {"command.line.runner.enabled=false"})
+@FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class BookServiceImplUnitTestNoDB
 {
 
@@ -125,6 +133,10 @@ public class BookServiceImplUnitTestNoDB
     @Test(expected = ResourceNotFoundException.class)
     public void notFindBookById()
     {
+        Mockito.when(bookrepos.findById(10000L))
+                .thenThrow(ResourceNotFoundException.class);
+
+        assertEquals("Wassup", bookService.findBookById(4).get );
     }
 
     @Test

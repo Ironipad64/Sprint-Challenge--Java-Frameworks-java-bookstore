@@ -15,6 +15,10 @@ public class ValidationError
      */
     private String message;
 
+    public ValidationError(){
+
+    }
+
     /**
      * Getter for the code
      *

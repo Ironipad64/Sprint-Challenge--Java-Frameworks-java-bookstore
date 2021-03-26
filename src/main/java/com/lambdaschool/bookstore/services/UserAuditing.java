@@ -13,8 +13,7 @@ import java.util.Optional;
  * if not which happens when seeding the database, use a default value
  */
 @Component
-public class UserAuditing
-        implements AuditorAware<String>
+public class UserAuditing implements AuditorAware<String>
 {
     /**
      * The current user
@@ -25,8 +24,7 @@ public class UserAuditing
     public Optional<String> getCurrentAuditor()
     {
         String uname;
-        Authentication authentication = SecurityContextHolder.getContext()
-                .getAuthentication();
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication != null)
         {
             uname = authentication.getName();

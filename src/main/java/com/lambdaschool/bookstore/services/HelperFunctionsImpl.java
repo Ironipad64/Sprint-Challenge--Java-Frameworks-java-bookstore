@@ -9,9 +9,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service(value = "helperFunctions")
-public class HelperFunctionsImpl
-        implements HelperFunctions
+public class HelperFunctionsImpl implements HelperFunctions
 {
+    @Override
     public List<ValidationError> getConstraintViolation(Throwable cause)
     {
         // Find any data violations that might be associated with the error and report them
@@ -32,8 +32,7 @@ public class HelperFunctionsImpl
             for (ConstraintViolation cv : ex.getConstraintViolations())
             {
                 ValidationError newVe = new ValidationError();
-                newVe.setCode(cv.getInvalidValue()
-                                      .toString());
+                newVe.setCode(cv.getInvalidValue().toString());
                 newVe.setMessage(cv.getMessage());
                 listVE.add(newVe);
             }

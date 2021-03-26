@@ -34,11 +34,9 @@ public class UserServiceImpl
     @Autowired
     private RoleService roleService;
 
-    public User findUserById(long id) throws
-            ResourceNotFoundException
+    public User findUserById(long id) throws ResourceNotFoundException
     {
-        return userrepos.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("User id " + id + " not found!"));
+        return userrepos.findById(id).orElseThrow(() -> new ResourceNotFoundException("User id " + id + " not found!"));
     }
 
     @Override
@@ -94,14 +92,10 @@ public class UserServiceImpl
             newUser.setUserid(user.getUserid());
         }
 
-        newUser.setUsername(user.getUsername()
-                                    .toLowerCase());
+        newUser.setUsername(user.getUsername().toLowerCase());
         newUser.setPasswordNoEncrypt(user.getPassword());
-        newUser.setPrimaryemail(user.getPrimaryemail()
-                                        .toLowerCase());
-
-        newUser.getRoles()
-                .clear();
+        newUser.setPrimaryemail(user.getPrimaryemail().toLowerCase());
+        newUser.getRoles().clear();
         for (UserRoles ur : user.getRoles())
         {
             Role addRole = roleService.findRoleById(ur.getRole()
@@ -110,13 +104,11 @@ public class UserServiceImpl
                     .add(new UserRoles(newUser, addRole));
         }
 
-        newUser.getUseremails()
-                .clear();
+        newUser.getUseremails().clear();
+
         for (Useremail ue : user.getUseremails())
         {
-            newUser.getUseremails()
-                    .add(new Useremail(newUser,
-                                       ue.getUseremail()));
+            newUser.getUseremails().add(new Useremail(newUser, ue.getUseremail()));
         }
 
         return userrepos.save(newUser);
@@ -124,16 +116,13 @@ public class UserServiceImpl
 
     @Transactional
     @Override
-    public User update(
-            User user,
-            long id)
+    public User update(User user, long id)
     {
         User currentUser = findUserById(id);
 
         if (user.getUsername() != null)
         {
-            currentUser.setUsername(user.getUsername()
-                                            .toLowerCase());
+            currentUser.setUsername(user.getUsername().toLowerCase());
         }
 
         if (user.getPassword() != null)
@@ -143,35 +132,27 @@ public class UserServiceImpl
 
         if (user.getPrimaryemail() != null)
         {
-            currentUser.setPrimaryemail(user.getPrimaryemail()
-                                                .toLowerCase());
+            currentUser.setPrimaryemail(user.getPrimaryemail().toLowerCase());
         }
 
-        if (user.getRoles()
-                .size() > 0)
+        if (user.getRoles().size() > 0)
         {
-            currentUser.getRoles()
-                    .clear();
+            currentUser.getRoles().clear();
+
             for (UserRoles ur : user.getRoles())
             {
-                Role addRole = roleService.findRoleById(ur.getRole()
-                                                                .getRoleid());
+                Role addRole = roleService.findRoleById(ur.getRole().getRoleid());
 
-                currentUser.getRoles()
-                        .add(new UserRoles(currentUser, addRole));
+                currentUser.getRoles().add(new UserRoles(currentUser, addRole));
             }
         }
 
-        if (user.getUseremails()
-                .size() > 0)
+        if (user.getUseremails().size() > 0)
         {
-            currentUser.getUseremails()
-                    .clear();
+            currentUser.getUseremails().clear();
             for (Useremail ue : user.getUseremails())
             {
-                currentUser.getUseremails()
-                        .add(new Useremail(currentUser,
-                                           ue.getUseremail()));
+                currentUser.getUseremails().add(new Useremail(currentUser, ue.getUseremail()));
             }
         }
 
