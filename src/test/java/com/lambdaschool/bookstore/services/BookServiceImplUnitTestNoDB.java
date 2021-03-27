@@ -7,10 +7,13 @@ import com.lambdaschool.bookstore.models.Book;
 import com.lambdaschool.bookstore.models.Section;
 import com.lambdaschool.bookstore.models.Wrote;
 import com.lambdaschool.bookstore.repository.BookRepository;
+import com.lambdaschool.bookstore.repository.AuthorRepository;
 import org.junit.After;
 import org.junit.Before;
+import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.junit.runners.MethodSorters;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,13 +21,20 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import static junit.framework.TestCase.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.mockito.ArgumentMatchers.any;
+
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import static junit.framework.TestCase.assertEquals;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest(classes = BookstoreApplicationTest.class)
+@SpringBootTest(classes = BookstoreApplicationTest.class,
+        properties = {"command.line.runner.enabled=false"})
+@FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class BookServiceImplUnitTestNoDB
 {
 
@@ -33,6 +43,18 @@ public class BookServiceImplUnitTestNoDB
 
     @MockBean
     private BookRepository bookrepos;
+
+    @MockBean
+    private AuthorService authorService;
+
+    @MockBean
+    private AuthorRepository authorrepo;
+
+    @MockBean
+    private SectionService sectionService;
+
+    @Autowired
+    private RoleService roleService;
 
     List<Book> myBookList = new ArrayList<>();
 
@@ -115,27 +137,66 @@ public class BookServiceImplUnitTestNoDB
     @Test
     public void findAll()
     {
+//        Mockito.when(bookrepos.findAll().thenReturn())
     }
 
     @Test
     public void findBookById()
     {
+        Mockito.when(bookrepos.findById(10000L)).thenThrow(ResourceNotFoundException.class);
+
+        assertEquals("DATID", bookService.findBookById(8).getTitle() );
     }
 
     @Test(expected = ResourceNotFoundException.class)
     public void notFindBookById()
     {
+        Mockito.when(bookrepos.findById(10000L)).thenThrow(ResourceNotFoundException.class);
+
+        assertEquals("DATID", bookService.findBookById(5).getTitle() );
     }
 
     @Test
     public void delete()
     {
+        Mockito.when(bookrepos.findById(4L)).thenReturn(Optional.of(myBookList.get(0)));
+
+        Mockito.doNothing().when(bookrepos).deleteById(4L);
+
+//        BookService.delete(4L);
+        assertEquals(3, myBookList.size());
     }
+
+
 
     @Test
     public void save()
     {
+        //creating book to save
+        Author a1 = new Author("John", "Mitchell");
+        a1 = authorService.save(a1);
+        Section s1 = new Section();
+//        s1 = sectionService.save(s1);
+        String book2title = "Eternal";
+
+
+        Book b1 = new Book(book2title, "123456789123", 2001, s1);
+        b1.getWrotes().add(new Wrote(a1, new Book()));
+        b1 = bookService.save(b1);
+
+        Mockito.when(bookrepos.save(any(Book.class))).thenReturn(b1);
+
+        Mockito.when(authorrepo.findById(4L)).thenReturn(Optional.of(a1));
+
+        Book addBook = bookService.save(b1);
+
+        assertNotNull(addBook);
+
+        assertEquals(book2title, addBook.getTitle());
     }
+
+
+
 
     @Test
     public void update()

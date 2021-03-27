@@ -178,19 +178,21 @@ public class SeedData
         s5 = sectionService.save(s5);
 
         Book b1 = new Book("Flatterland", "9780738206752", 2001, s1);
-        b1.getWrotes()
-                .add(new Wrote(a6, new Book()));
+        b1.getWrotes().add(new Wrote(a6, new Book()));
         b1 = bookService.save(b1);
+
 
         Book b2 = new Book("Digital Fortess", "9788489367012", 2007, s1);
         b2.getWrotes()
                 .add(new Wrote(a2, new Book()));
         b2 = bookService.save(b2);
 
+
         Book b3 = new Book("The Da Vinci Code", "9780307474278", 2009, s1);
         b3.getWrotes()
                 .add(new Wrote(a2, new Book()));
         b3 = bookService.save(b3);
+
 
         Book b4 = new Book("Essentials of Finance", "1314241651234", 0, s4);
         b4.getWrotes()
@@ -198,6 +200,7 @@ public class SeedData
         b4.getWrotes()
                 .add(new Wrote(a5, new Book()));
         b4 = bookService.save(b4);
+
 
         Book b5 = new Book("Calling Texas Home", "1885171382134", 2000, s3);
         b5.getWrotes()

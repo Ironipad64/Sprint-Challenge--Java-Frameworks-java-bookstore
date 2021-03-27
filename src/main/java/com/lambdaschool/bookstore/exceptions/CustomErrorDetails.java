@@ -14,12 +14,12 @@ import java.util.Map;
  * Class to override the error details provided by Spring Boot. We want to use our own format.
  */
 @Component
-public class CustomErrorDetails
-        extends DefaultErrorAttributes
+public class CustomErrorDetails extends DefaultErrorAttributes
 {
     /**
      * Connects this class with the Helper Functions
      */
+
     @Autowired
     private HelperFunctions helperFunctions;
 
@@ -30,15 +30,13 @@ public class CustomErrorDetails
      * @param includeStackTrace Should we include the Stack Trace in our output. This field is not used in our implementation.
      * @return a Map of String, Object with our information to report in place of the standard Spring Boot information.
      */
+
     @Override
-    public Map<String, Object> getErrorAttributes(
-            WebRequest webRequest,
-            boolean includeStackTrace)
+    public Map<String, Object> getErrorAttributes(WebRequest webRequest, boolean includeStackTrace)
     {
 
         //Get all the normal error information
-        Map<String, Object> errorAttributes =
-                super.getErrorAttributes(webRequest, includeStackTrace);
+        Map<String, Object> errorAttributes = super.getErrorAttributes(webRequest, includeStackTrace);
         // Linked HashMaps maintain the order the items are inserted. I am using it here so that the error JSON
         // produced from this class lists the attributes in the same order as other classes.
         Map<String, Object> errorDetails = new LinkedHashMap<>();
@@ -49,6 +47,7 @@ public class CustomErrorDetails
         errorDetails.put("developerMessage", "path: " + errorAttributes.get("path"));
 
         errorDetails.put("errors", helperFunctions.getConstraintViolation(this.getError(webRequest)));
+
         return errorDetails;
     }
 }

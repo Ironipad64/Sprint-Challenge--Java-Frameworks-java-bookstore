@@ -101,11 +101,8 @@ public class AuthorizationServerConfig
         configurer.inMemory()
                 .withClient(CLIENT_ID)
                 .secret(encoder.encode(CLIENT_SECRET))
-                .authorizedGrantTypes(GRANT_TYPE_PASSWORD,
-                                      AUTHORIZATION_CODE)
-                .scopes(SCOPE_READ,
-                        SCOPE_WRITE,
-                        TRUST)
+                .authorizedGrantTypes(GRANT_TYPE_PASSWORD, AUTHORIZATION_CODE)
+                .scopes(SCOPE_READ, SCOPE_WRITE, TRUST)
                 .accessTokenValiditySeconds(ACCESS_TOKEN_VALIDITY_SECONDS);
     }
 
@@ -117,15 +114,14 @@ public class AuthorizationServerConfig
      *                  We give the configurer some custom configuration and let it work!
      * @throws Exception if the configuration fails
      */
+
     @Override
     public void configure(AuthorizationServerEndpointsConfigurer endpoints)
             throws
             Exception
     {
-        endpoints.tokenStore(tokenStore)
-                .authenticationManager(authenticationManager);
+        endpoints.tokenStore(tokenStore).authenticationManager(authenticationManager);
         // here instead of our clients requesting authentication at the endpoint /oauth/token, they request it at the endpoint /login
-        endpoints.pathMapping("/oauth/token",
-                              "/login");
+        endpoints.pathMapping("/oauth/token", "/login");
     }
 }
